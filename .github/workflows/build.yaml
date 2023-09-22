@@ -68,7 +68,7 @@ jobs:
           tags: localhost:5000/protonmail-bridge:latest
       - name: Scan image
         id: scan
-        uses: anchore/scan-action@v2
+        uses: anchore/scan-action@v3
         with:
           image: localhost:5000/protonmail-bridge:latest
           fail-build: true
