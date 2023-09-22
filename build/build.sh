@@ -7,6 +7,7 @@ VERSION=$1
 # Clone new code
 git clone https://github.com/ProtonMail/proton-bridge.git --depth 1 --branch v$VERSION
 cd proton-bridge
+sed -i 's/127.0.0.1/0.0.0.0/g' internal/constants/constants.go
 
 ARCH=$(uname -m)
 if [[ $ARCH == "armv7l" ]] ; then
