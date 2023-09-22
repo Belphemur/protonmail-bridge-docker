@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y git build-essential libsecret-1-dev
 # Build
 WORKDIR /build/
 COPY build.sh VERSION /build/
-RUN bash build.sh
+RUN bash build.sh $(cat VERSION)
 
 FROM debian:bookworm-slim
 LABEL maintainer="Antoine Aflalo <proton-bridge@aaflalo.me>"

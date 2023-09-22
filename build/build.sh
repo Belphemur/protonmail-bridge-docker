@@ -2,7 +2,7 @@
 
 set -ex
 
-VERSION=`cat VERSION`
+VERSION=$1
 
 # Clone new code
 git clone https://github.com/ProtonMail/proton-bridge.git
