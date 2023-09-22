@@ -9,8 +9,8 @@ WORKDIR /build/
 COPY build.sh VERSION /build/
 RUN bash build.sh
 
-FROM ubuntu:jammy
-LABEL maintainer="Xiaonan Shen <s@sxn.dev>"
+FROM debian:bookworm-slim
+LABEL maintainer="Antoine Aflalo <git@aaflalo.me>"
 
 EXPOSE 25/tcp
 EXPOSE 143/tcp
