@@ -10,6 +10,8 @@ services:
     ports:
       - 1025:25/tcp
       - 1143:143/tcp
+    environment:
+      - UID=900
     restart: unless-stopped
     stdin_open: true 
     tty: true
