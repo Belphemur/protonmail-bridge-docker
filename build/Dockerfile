@@ -21,11 +21,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy bash scripts
-COPY gpgparams entrypoint.sh /app/protonmail/
+COPY gpgparams /app/protonmail/
 
 # Copy protonmail
 COPY --from=build /build/proton-bridge/bridge /app/protonmail/
 COPY --from=build /build/proton-bridge/proton-bridge /app/protonmail/
 
-COPY ./root/ /
+COPY root/ /
 VOLUME /config
