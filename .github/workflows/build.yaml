@@ -41,7 +41,7 @@ jobs:
         run: echo "version=$(cat build/VERSION)" >> $GITHUB_OUTPUT
       - name: Set repo
         id: repo
-        run: if [[ $GITHUB_REF == "refs/heads/master" ]]; then echo "repo=${DOCKER_REPO}" >> $GITHUB_OUTPUT"; else echo "repo=${DOCKER_REPO_DEV}" >> $GITHUB_OUTPUT"; fi
+        run: if [[ $GITHUB_REF == "refs/heads/master" ]]; then echo "repo=${DOCKER_REPO}" >> $GITHUB_OUTPUT; else echo "repo=${DOCKER_REPO_DEV}" >> $GITHUB_OUTPUT; fi
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
