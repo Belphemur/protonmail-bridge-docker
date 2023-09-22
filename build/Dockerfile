@@ -27,4 +27,12 @@ COPY gpgparams entrypoint.sh /protonmail/
 COPY --from=build /build/proton-bridge/bridge /protonmail/
 COPY --from=build /build/proton-bridge/proton-bridge /protonmail/
 
+# Add a user 'protonmail' with UID 900
+RUN useradd -u 900 -d /home/protonmail protonmail \
+    && mkdir -p /home/protonmail \
+    && chown protonmail: /home/protonmail
+# change to non-privileged user for extra security
+
+USER protonmail
+
 ENTRYPOINT ["bash", "/protonmail/entrypoint.sh"]
