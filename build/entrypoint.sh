@@ -28,7 +28,7 @@ else
     socat TCP-LISTEN:25,fork TCP:127.0.0.1:1025 &
     socat TCP-LISTEN:143,fork TCP:127.0.0.1:1143 &
     
-    local command = "--cli $@"
+    command="--cli $@"
     if [ $# -eq 0 ]; then
         # If no arguments are passed, start the bridge
          command="-n"
