@@ -9,7 +9,7 @@ WORKDIR /build/
 COPY build.sh VERSION /build/
 RUN bash build.sh $(cat VERSION)
 
-FROM debian:bookworm-slim
+FROM ghcr.io/linuxserver/baseimage-ubuntu
 LABEL maintainer="Antoine Aflalo <proton-bridge@aaflalo.me>"
 
 EXPOSE 25/tcp
@@ -21,18 +21,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy bash scripts
-COPY gpgparams entrypoint.sh /protonmail/
+COPY gpgparams entrypoint.sh /app/protonmail/
 
 # Copy protonmail
-COPY --from=build /build/proton-bridge/bridge /protonmail/
-COPY --from=build /build/proton-bridge/proton-bridge /protonmail/
+COPY --from=build /build/proton-bridge/bridge /app/protonmail/
+COPY --from=build /build/proton-bridge/proton-bridge /app/protonmail/
 
-# Add a user 'protonmail' with UID 900
-RUN useradd -u 900 -d /home/protonmail protonmail \
-    && mkdir -p /home/protonmail \
-    && chown protonmail: /home/protonmail
-# change to non-privileged user for extra security
-
-USER protonmail
-
-ENTRYPOINT ["bash", "/protonmail/entrypoint.sh"]
+COPY root/ /
+VOLUME /config

@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+# Initialize pass
+gpg --generate-key --batch /app/protonmail/gpgparams
+pass init pass-key
+
+# permissions
+lsiown -R abc:abc \
+    /config
+    
+
+    

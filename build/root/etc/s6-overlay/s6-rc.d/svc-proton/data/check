@@ -1,0 +1,3 @@
+#!/bin/bash
+
+netstat -an | grep 1025 | grep LISTEN || exit 1
