@@ -5,4 +5,4 @@ export HOME
 
 exec \
     s6-notifyoncheck -d -n 300 -w 1000 \
-        cd /app/protonmail s6-setuidgid abc /app/protonmail/proton-bridge -n --cli
+        s6-setuidgid abc /app/protonmail/proton-bridge --cli
