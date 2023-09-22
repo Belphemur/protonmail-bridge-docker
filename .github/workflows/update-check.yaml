@@ -23,5 +23,7 @@ jobs:
       uses: actions/checkout@master
       with:
         token: ${{ secrets.PERSONAL_TOKEN }}
+    - name: install request
+      run:  apt update && apt install python3-requests -y
     - name: Check Update
       run: python3 update-check.py ${{ github.event_name == 'pull_request' }}
