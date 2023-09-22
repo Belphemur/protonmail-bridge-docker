@@ -16,7 +16,7 @@ on:
 env:
   DOCKER_REPO: ghcr.io/belphemur/protonmail-bridge
   DOCKER_REPO_DEV: ghcr.io/belphemur/protonmail-bridge-dev
-  PLATFORMS: linux/amd64,linux/arm64/v8,linux/arm/v7
+  PLATFORMS: linux/amd64,linux/arm64/v8
   REGISTRY: ghcr.io
 
 jobs:
@@ -66,6 +66,8 @@ jobs:
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: localhost:5000/protonmail-bridge:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Scan image
         id: scan
         uses: anchore/scan-action@v3
