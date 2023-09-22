@@ -10,7 +10,7 @@ COPY build.sh VERSION /build/
 RUN bash build.sh
 
 FROM debian:bookworm-slim
-LABEL maintainer="Antoine Aflalo <git@aaflalo.me>"
+LABEL maintainer="Antoine Aflalo <proton-bridge@aaflalo.me>"
 
 EXPOSE 25/tcp
 EXPOSE 143/tcp
