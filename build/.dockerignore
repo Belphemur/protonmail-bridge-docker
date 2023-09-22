@@ -6,4 +6,5 @@
 !gpgparams
 !Dockerfile
 !build.sh
+!init-bridge.sh
 !root/*

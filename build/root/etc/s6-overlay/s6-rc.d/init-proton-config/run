@@ -1,13 +1,17 @@
 #!/usr/bin/with-contenv bash
 # shellcheck shell=bash
-
-# Initialize pass
-gpg --generate-key --batch /app/protonmail/gpgparams
-pass init pass-key
+HOME=/config
+export HOME
 
 # permissions
 lsiown -R abc:abc \
     /config
+
+# Initialize pass
+if [ ! -d "/config/.gnupg" ]; then
+  s6-setuidgid abc gpg --generate-key --batch /app/protonmail/gpgparams
+  s6-setuidgid abc pass init pass-key
+fi
     
 
     
