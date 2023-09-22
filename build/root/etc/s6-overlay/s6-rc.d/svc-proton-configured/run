@@ -6,5 +6,4 @@ if [ ! -d "/config/.password-store/protonmail-credentials/" ]; then
     exit 1
 fi
 
-
 exit 0
