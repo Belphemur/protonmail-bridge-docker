@@ -1,8 +1,5 @@
 # ProtonMail IMAP/SMTP Bridge Docker Container
 
-![version badge](https://img.shields.io/docker/v/belphemur/protonmail-bridge)
-![image size badge](https://img.shields.io/docker/image-size/belphemur/protonmail-bridge/build)
-![docker pulls badge](https://img.shields.io/docker/pulls/belphemur/protonmail-bridge)
 ![build badge](https://github.com/belphemur/protonmail-bridge-docker/workflows/build%20from%20source/badge.svg)
 
 This is an unofficial Docker container of the [ProtonMail Bridge](https://protonmail.com/bridge/). Some of the scripts are based on [Hendrik Meyer's work](https://gitlab.com/T4cC0re/protonmail-bridge-docker).
