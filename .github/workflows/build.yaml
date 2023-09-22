@@ -59,7 +59,7 @@ jobs:
         with:
           driver-opts: network=host
       - name: Build image without push to registry
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./build
           file: ./build/Dockerfile
