@@ -31,7 +31,8 @@ def check_version(directory, new_version):
         result = os.system(f"git config --local user.email 'actions@github.com' \
             && git config --local user.name 'GitHub Actions' \
             && git add {directory}/VERSION \
-            && git commit -m 'Bump {directory} version to {new_version}'")
+            && git commit -m 'Bump {directory} version to {new_version}' \
+            && git tag -f v{new_version}")
         if result != 0:
             print("Failed to commit the bump. Exiting")
             exit(1)
