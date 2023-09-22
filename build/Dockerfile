@@ -27,5 +27,5 @@ COPY gpgparams entrypoint.sh /app/protonmail/
 COPY --from=build /build/proton-bridge/bridge /app/protonmail/
 COPY --from=build /build/proton-bridge/proton-bridge /app/protonmail/
 
-COPY root/ /
+COPY ./root/ /
 VOLUME /config
