@@ -9,7 +9,7 @@ WORKDIR /build/
 COPY build.sh VERSION /build/
 RUN bash build.sh $(cat VERSION)
 
-FROM ghcr.io/linuxserver/baseimage-ubuntu
+FROM ghcr.io/linuxserver/baseimage-debian:bookworm
 LABEL maintainer="Antoine Aflalo <proton-bridge@aaflalo.me>"
 
 EXPOSE 25/tcp
