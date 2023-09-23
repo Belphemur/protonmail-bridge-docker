@@ -12,8 +12,8 @@ RUN bash build.sh $(cat VERSION)
 FROM ghcr.io/linuxserver/baseimage-debian:bookworm
 LABEL maintainer="Antoine Aflalo <proton-bridge@aaflalo.me>"
 
-EXPOSE 25/tcp
-EXPOSE 143/tcp
+EXPOSE 1025/tcp
+EXPOSE 1143/tcp
 
 # Copy bash scripts
 COPY gpgparams init-bridge.sh /app/protonmail/

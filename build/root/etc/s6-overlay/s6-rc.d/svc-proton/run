@@ -2,7 +2,9 @@
 # shellcheck shell=bash
 HOME=/config
 export HOME
+rm -f /tmp/faketty
+mkfifo /tmp/faketty
 
 exec \
     s6-notifyoncheck -d -n 300 -w 1000 \
-        s6-setuidgid abc /app/protonmail/proton-bridge -n
+        s6-setuidgid abc cat /tmp/faketty | /app/protonmail/proton-bridge --cli
