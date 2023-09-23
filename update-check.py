@@ -47,13 +47,6 @@ def check_version(directory, new_version):
         print(f"Already newest version {old_version}")
 
 
-# check deb version
-response = requests.get("https://protonmail.com/download/current_version_linux.json")
-content = json.loads(response.content)
-version = re.match(".*_([0-9.-]+)_amd64\.deb", content["DebFile"]).group(1)
-check_version("deb", version)
-
-
 # check build version
 response = requests.get(
     "https://api.github.com/repos/ProtonMail/proton-bridge/tags",
