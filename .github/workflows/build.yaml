@@ -75,10 +75,10 @@ jobs:
           tags: localhost:5000/protonmail-bridge:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          args: |
-            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            --build-arg VCS_REF=$(git rev-parse --short HEAD)
-            --build-arg VERSION=${{ steps.version.outputs.version }}
+          build-args: |
+            BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            VCS_REF=$(git rev-parse --short HEAD)
+            VERSION=${{ steps.version.outputs.version }}
       - name: Scan image
         id: scan
         uses: anchore/scan-action@v3
@@ -112,7 +112,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          args: |
-            --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            --build-arg VCS_REF=$(git rev-parse --short HEAD)
-            --build-arg VERSION=${{ steps.version.outputs.version }}
+          build-args: |
+            BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            VCS_REF=$(git rev-parse --short HEAD)
+            VERSION=${{ steps.version.outputs.version }}
