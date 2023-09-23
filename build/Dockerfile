@@ -5,9 +5,10 @@ FROM golang:1.21-bookworm AS build
 RUN apt-get update && apt-get install -y git build-essential libsecret-1-dev
 
 # Build
+ARG VERSION
 WORKDIR /build/
-COPY build.sh VERSION /build/
-RUN bash build.sh $(cat VERSION)
+COPY build.sh /build/
+RUN bash build.sh $VERSION
 
 FROM ghcr.io/linuxserver/baseimage-debian:bookworm
 LABEL maintainer="Antoine Aflalo <proton-bridge@aaflalo.me>"
