@@ -6,7 +6,7 @@ on:
       - master
       - dev
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
     paths:
       - .github/workflows/build.yaml
       - build/*
