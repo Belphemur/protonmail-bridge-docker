@@ -30,7 +30,9 @@ def check_version(directory, new_version):
         # commit
         result = os.system(f"git config --local user.email 'actions@github.com' \
             && git config --local user.name 'GitHub Actions' \
+            && git config --local push.followTags true \
             && git add {directory}/VERSION \
+            && git commit -m 'Bump version to {new_version}' \
             && git tag -f v{new_version}")
         if result != 0:
             print("Failed to commit the bump. Exiting")
@@ -38,7 +40,7 @@ def check_version(directory, new_version):
         if is_pull_request:
             print("Action triggered by pull request. Do not push.")
         else:
-            result = os.system("git push origin master --tags")
+            result = os.system("git push")
             if result != 0:
                 print("Failed to push. Exiting")
                 exit(1)
