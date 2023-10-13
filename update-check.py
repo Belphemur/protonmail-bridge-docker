@@ -40,7 +40,7 @@ def check_version(directory, new_version):
         if is_pull_request:
             print("Action triggered by pull request. Do not push.")
         else:
-            result = os.system("git push")
+            result = os.system("git push --tags")
             if result != 0:
                 print("Failed to push. Exiting")
                 exit(1)
