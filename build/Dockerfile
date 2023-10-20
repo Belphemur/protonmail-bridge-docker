@@ -20,7 +20,8 @@ EXPOSE 1143/tcp
 COPY gpgparams init-bridge.sh /app/protonmail/
 
 # Install dependencies and protonmail bridge
-RUN apt-get update \
+RUN echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware" > /etc/apt/sources.list.d/security.list \
+    && apt-get update \
     && apt-get install -y --no-install-recommends pass libsecret-1-0 ca-certificates net-tools procps \
     && apt-get full-upgrade -y \
     && rm -rf /var/lib/apt/lists/*
