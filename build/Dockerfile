@@ -10,7 +10,7 @@ WORKDIR /build/
 COPY build.sh /build/
 RUN bash build.sh $VERSION
 
-FROM ghcr.io/linuxserver/baseimage-debian:bookworm
+FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
 LABEL maintainer="Antoine Aflalo <proton-bridge@aaflalo.me>"
 
 EXPOSE 1025/tcp
@@ -20,8 +20,7 @@ EXPOSE 1143/tcp
 COPY gpgparams init-bridge.sh /app/protonmail/
 
 # Install dependencies and protonmail bridge
-RUN echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware" > /etc/apt/sources.list.d/security.list \
-    && apt-get update \
+RUN apt-get update \
     && apt-get install -y --no-install-recommends pass libsecret-1-0 ca-certificates net-tools procps \
     && apt-get full-upgrade -y \
     && rm -rf /var/lib/apt/lists/*
