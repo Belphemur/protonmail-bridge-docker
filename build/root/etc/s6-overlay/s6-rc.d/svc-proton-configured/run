@@ -1,9 +1,9 @@
 #!/usr/bin/with-contenv bash
 # shellcheck shell=bash
 
-if [ ! -d "/config/.password-store/protonmail-credentials/" ]; then
+if pass; then
+    echo "[BRIDGE] Configured: pass has a vault configured."
+else
     echo "[BRIDGE] Not configured yet: please run /app/protonmail/init-bridge.sh"
     exit 1
 fi
-
-exit 0
