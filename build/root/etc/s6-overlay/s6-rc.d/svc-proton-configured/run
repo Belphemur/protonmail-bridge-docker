@@ -6,7 +6,10 @@ export HOME
 
 if s6-setuidgid abc pass; then
     echo "[BRIDGE] Configured: pass has a vault configured."
-else
-    echo "[BRIDGE] Not configured yet: please run /app/protonmail/init-bridge.sh"
-    exit 1
+    exit 0
 fi
+
+echo "[BRIDGE] Not configured yet: please run /app/protonmail/init-bridge.sh"
+exit 1
+
+
