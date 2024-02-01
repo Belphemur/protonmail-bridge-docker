@@ -1,7 +1,10 @@
 #!/usr/bin/with-contenv bash
 # shellcheck shell=bash
+HOME=/config
+export HOME
 
-if pass; then
+
+if s6-setuidgid abc pass; then
     echo "[BRIDGE] Configured: pass has a vault configured."
 else
     echo "[BRIDGE] Not configured yet: please run /app/protonmail/init-bridge.sh"
