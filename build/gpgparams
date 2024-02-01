@@ -2,8 +2,11 @@
 %echo Generating a basic OpenPGP key
 Key-Type: eddsa
 Key-Curve: Ed25519
+Key-Usage: cert
+Subkey-Type: ecdh
+Subkey-Curve: Curve25519
+Subkey-Usage: encrypt
 Name-Real: pass-key
-Key-Usage: encrypt
 Expire-Date: 0
 %commit
 %echo done
