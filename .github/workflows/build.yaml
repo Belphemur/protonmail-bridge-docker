@@ -24,6 +24,26 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      repo: ${{ steps.repo.outputs.repo }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set version
+        id: version
+        run: echo "version=$(cat build/VERSION)" >> $GITHUB_OUTPUT
+      - name: Set repo
+        id: repo
+        run: |
+          if [[ $GITHUB_REF == "refs/heads/master" || $GITHUB_REF == refs/tags/* ]]; then 
+            echo "repo=${DOCKER_REPO}" >> $GITHUB_OUTPUT
+          else 
+            echo "repo=${DOCKER_REPO_DEV}" >> $GITHUB_OUTPUT
+          fi
+  
   build:
     permissions:
       contents: read
@@ -48,6 +68,8 @@ jobs:
         image: registry:2
         ports:
           - 5000:5000
+    needs:
+      - version
     steps:
       - name: Prepare
         run: |
@@ -55,9 +77,6 @@ jobs:
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV 
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set version
-        id: version
-        run: echo "version=$(cat build/VERSION)" >> $GITHUB_OUTPUT
       - name: Set repo
         id: repo
         run: |
@@ -103,7 +122,7 @@ jobs:
           build-args: |
             BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
             VCS_REF=$(git rev-parse --short HEAD)
-            VERSION=${{ steps.version.outputs.version }}
+            VERSION=${{needs.version.outputs.version}}
       - name: Scan image
         id: scan
         uses: anchore/scan-action@v3
@@ -133,7 +152,7 @@ jobs:
           build-args: |
             BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
             VCS_REF=$(git rev-parse --short HEAD)
-            VERSION=${{ steps.version.outputs.version }}
+            VERSION=${{needs.version.outputs.version}}
       -
         name: Export digest
         run: |
@@ -161,20 +180,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
-    steps:
-      - 
-        name: Set version
-        id: version
-        run: echo "version=$(cat build/VERSION)" >> $GITHUB_OUTPUT
-      - 
-        name: Set repo
-        id: repo
-        run: |
-          if [[ $GITHUB_REF == "refs/heads/master" || $GITHUB_REF == refs/tags/* ]]; then 
-            echo "repo=${DOCKER_REPO}" >> $GITHUB_OUTPUT
-          else 
-            echo "repo=${DOCKER_REPO_DEV}" >> $GITHUB_OUTPUT
-          fi
+      - version
+    steps:  
       -
         name: Download digests
         uses: actions/download-artifact@v4
@@ -190,9 +197,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ steps.repo.outputs.repo }}
+          images: ${{needs.version.outputs.repo}}
           tags: |
-            type=semver,pattern={{version}},value=${{ steps.version.outputs.version }}
+            type=semver,pattern={{version}},value=${{needs.version.outputs.version}}
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }} 
