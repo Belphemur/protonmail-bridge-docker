@@ -9,7 +9,7 @@ GitHub: [https://github.com/belphemur/protonmail-bridge-docker](https://github.c
 ## Tags
 
 There are two types of images.
- - `build`: Images based on the [source code](https://github.com/ProtonMail/proton-bridge). It supports `amd64`.
+ - `build`: Images based on the [source code](https://github.com/ProtonMail/proton-bridge). It supports `amd64` and `arm64`.
 
 tag | description
  -- | --
