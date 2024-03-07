@@ -108,7 +108,7 @@ jobs:
           file: ./build/Dockerfile
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=$${{ steps.repo.outputs.repo }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{ steps.repo.outputs.repo }},push-by-digest=true,name-canonical=true,push=true
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
