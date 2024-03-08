@@ -218,12 +218,13 @@ jobs:
                   line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
                   
                   # Extract the key and value
-                  key=$(echo "$line" | cut -d'=' -f1 | sed 's/^manifest://')
+                  key=$(echo "$line" | cut -d'=' -f1 | sed 's/^manifest:/index:/')
                   value=$(echo "$line" | cut -d'=' -f2-)
               
                   # Append --annotation flag with the key-value pair to the annotations array
                   annotations+=("--annotation $key=$value")
               done
+              echo ${annotations[@]}
               echo "annotations=${annotations[@]}" >> $GITHUB_OUTPUT
       -
         name: Create manifest list and push
