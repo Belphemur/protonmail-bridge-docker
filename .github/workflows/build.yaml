@@ -211,10 +211,9 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Create manifest list and push
-        working-directory: /tmp/digests
-        run: |        
+      - name: Get annotations
+        id: annotations
+        run: |
           # Split the environment variable into separate lines
           IFS=$'\\n' read -d '' -ra lines <<< "$DOCKER_METADATA_OUTPUT_ANNOTATIONS"
           
@@ -229,9 +228,15 @@ jobs:
           
           # Join the annotations array into a single string
           annotations_str=$(IFS=','; echo "${annotations[*]}")
+          echo $annotations_str
+          echo "annotations=$annotations_str" >> $GITHUB_OUTPUT
+      -
+        name: Create manifest list and push
+        working-directory: /tmp/digests
+        run: |        
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $annotations_str \
-            $(printf '${{needs.version.outputs.repo}}@sha256:%s ' *)          
+            ${{ steps.annotations.outputs.annotations }} \
+            $(printf '${{needs.version.outputs.repo}}@sha256:%s ' *)     
       -
         name: Inspect image
         run: |
