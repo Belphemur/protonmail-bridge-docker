@@ -204,22 +204,11 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - 
-        name: Get annotation script
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: 'annotations.sh'
-          sparse-checkout-cone-mode: false
-      - 
-        name: Get annotations
-        id: annotations
-        run: annotations.sh
       -
         name: Create manifest list and push
         working-directory: /tmp/digests
         run: |        
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            ${{ steps.annotations.outputs.annotations }} \
             $(printf '${{needs.version.outputs.repo}}@sha256:%s ' *)     
       -
         name: Inspect image
