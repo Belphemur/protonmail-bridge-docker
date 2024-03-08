@@ -77,24 +77,17 @@ jobs:
       - name: Prepare
         run: |
           platform=${{ matrix.platform }}
-          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV 
+          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV    
+          echo "SCOPE=${{needs.version.outputs.repo}}-${PLATFORM_PAIR}" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set repo
-        id: repo
-        run: |
-          if [[ $GITHUB_REF == "refs/heads/master" || $GITHUB_REF == refs/tags/* ]]; then 
-            echo "repo=${DOCKER_REPO}" >> $GITHUB_OUTPUT
-          else 
-            echo "repo=${DOCKER_REPO_DEV}" >> $GITHUB_OUTPUT
-          fi
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ steps.repo.outputs.repo }}
+          images: ${{needs.version.outputs.repo}}
 
       - name: Log into registry ${{ env.REGISTRY }} 
         uses: docker/login-action@v3
@@ -120,8 +113,8 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: localhost:5000/protonmail-bridge:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=${{ env.SCOPE }}
+          cache-to: type=gha,mode=max,scope=${{ env.SCOPE }}
           build-args: |
             BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
             VCS_REF=$(git rev-parse --short HEAD)
@@ -149,9 +142,9 @@ jobs:
           file: ./build/Dockerfile
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ steps.repo.outputs.repo }},push-by-digest=true,name-canonical=true,push=true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          outputs: type=image,name=${{needs.version.outputs.repo}},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha,scope=${{ env.SCOPE }}
+          cache-to: type=gha,mode=max,scope=${{ env.SCOPE }}
           build-args: |
             BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
             VCS_REF=$(git rev-parse --short HEAD)
@@ -240,4 +233,4 @@ jobs:
       -
         name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{needs.version.outputs.repo}}:${{ steps.meta.outputs.version }}          
+          docker buildx imagetools inspect ${{needs.version.outputs.}}:${{ steps.meta.outputs.version }}          
