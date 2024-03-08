@@ -32,6 +32,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: 'build/VERSION'
+          sparse-checkout-cone-mode: false
       - name: Set version
         id: version
         run: echo "version=$(cat build/VERSION)" >> $GITHUB_OUTPUT
