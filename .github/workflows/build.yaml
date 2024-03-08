@@ -205,9 +205,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - 
+        name: Get annotation script
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: 'annotations.sh'
+          sparse-checkout-cone-mode: false
+      - 
         name: Get annotations
         id: annotations
-        run: ${PWD}/annotations.sh
+        run: annotations.sh
       -
         name: Create manifest list and push
         working-directory: /tmp/digests
