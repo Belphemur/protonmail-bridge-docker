@@ -204,10 +204,10 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get annotations
+      - 
+        name: Get annotations
         id: annotations
-        run: bash annotations.sh
-
+        run: ${PWD}/annotations.sh
       -
         name: Create manifest list and push
         working-directory: /tmp/digests
