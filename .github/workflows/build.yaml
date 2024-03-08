@@ -78,7 +78,7 @@ jobs:
         run: |
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV    
-          echo "SCOPE=${{needs.version.outputs.repo}}-${PLATFORM_PAIR}" >> $GITHUB_ENV
+          echo "SCOPE=${{needs.version.outputs.repo}}-${platform//\//-}" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v4
       # Extract metadata (tags, labels) for Docker
