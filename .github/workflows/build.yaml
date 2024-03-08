@@ -207,22 +207,24 @@ jobs:
       - name: Get annotations
         id: annotations
         run: |
-          # Split the environment variable into separate lines
-          IFS=$'\\n' read -d '' -ra lines <<< "$DOCKER_METADATA_OUTPUT_ANNOTATIONS"
-          
-          # Loop through each line and extract the key-value pairs
-          for line in "${lines[@]}"; do
-              key=$(echo "$line" | cut -d'=' -f1 | sed 's/^manifest:/index:/')
-              value=$(echo "$line" | cut -d'=' -f2-)
-          
-              # Append --annotation flag with the key-value pair
-              annotations+=("--annotation $key=$value")
-          done
-          
-          # Join the annotations array into a single string
-          annotations_str=$(IFS=','; echo "${annotations[*]}")
-          echo $annotations_str
-          echo "annotations=$annotations_str" >> $GITHUB_OUTPUT
+              IFS=$'\n' read -d '' -ra lines <<< "$DOCKER_METADATA_OUTPUT_ANNOTATIONS"
+              
+              # Initialize an empty array to store the annotations
+              annotations=()
+              
+              # Loop through each line and extract the key-value pairs
+              for line in "${lines[@]}"; do
+                  # Remove leading/trailing whitespace
+                  line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+                  
+                  # Extract the key and value
+                  key=$(echo "$line" | cut -d'=' -f1 | sed 's/^manifest://')
+                  value=$(echo "$line" | cut -d'=' -f2-)
+              
+                  # Append --annotation flag with the key-value pair to the annotations array
+                  annotations+=("--annotation $key=$value")
+              done
+              echo "annotations=${annotations[@]}" >> $GITHUB_OUTPUT
       -
         name: Create manifest list and push
         working-directory: /tmp/digests
