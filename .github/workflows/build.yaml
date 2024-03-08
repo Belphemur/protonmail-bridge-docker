@@ -214,9 +214,23 @@ jobs:
       -
         name: Create manifest list and push
         working-directory: /tmp/digests
-        run: |
+        run: |        
+          # Split the environment variable into separate lines
+          IFS=$'\\n' read -d '' -ra lines <<< "$DOCKER_METADATA_OUTPUT_ANNOTATIONS"
+          
+          # Loop through each line and extract the key-value pairs
+          for line in "${lines[@]}"; do
+              key=$(echo "$line" | cut -d'=' -f1 | sed 's/^manifest:/index:/')
+              value=$(echo "$line" | cut -d'=' -f2-)
+          
+              # Append --annotation flag with the key-value pair
+              annotations+=("--annotation $key=$value")
+          done
+          
+          # Join the annotations array into a single string
+          annotations_str=$(IFS=','; echo "${annotations[*]}")
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(jq -cr '.annotations | map("--annotation " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+            $annotations_str \
             $(printf '${{needs.version.outputs.repo}}@sha256:%s ' *)          
       -
         name: Inspect image
