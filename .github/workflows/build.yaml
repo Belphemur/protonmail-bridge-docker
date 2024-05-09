@@ -213,4 +213,17 @@ jobs:
       -
         name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{needs.version.outputs.repo}}:${{ steps.meta.outputs.version }}          
+          docker buildx imagetools inspect ${{needs.version.outputs.repo}}:${{ steps.meta.outputs.version }}
+      -
+        name: Export digest
+        id: digest
+        run: |
+          echo digest=$(docker buildx imagetools inspect ghcr.io/belphemur/protonmail-bridge:3.11.0 --format "{{json .Manifest.Digest}}"  | xargs) >> $GITHUB_OUTPUT
+      - 
+        name: Attest
+        uses: actions/attest-build-provenance@v1
+        id: attest
+        with:
+          subject-name: ${{needs.version.outputs.repo}}
+          subject-digest: ${{ steps.digest.outputs.digest }}
+          push-to-registry: true
