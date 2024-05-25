@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          keep-n-untagged: 10
+          keep-n-tagged: 10
           exclude-tags: latest
           token: ${{ secrets.GITHUB_TOKEN }}
     
