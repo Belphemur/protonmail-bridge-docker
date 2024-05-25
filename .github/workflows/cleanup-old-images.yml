@@ -15,5 +15,6 @@ jobs:
         with:
           keep-n-tagged: 10
           exclude-tags: latest
+          package: protonmail-bridge
           token: ${{ secrets.GITHUB_TOKEN }}
     
