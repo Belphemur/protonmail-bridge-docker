@@ -1,0 +1,19 @@
+name: Delete old container images
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # every day at midnight
+  workflow_dispatch:
+jobs:
+  clean-ghcr:
+    name: Delete Untagged Images
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          keep-n-untagged: 10
+          exclude-tags: latest
+          token: ${{ secrets.GITHUB_TOKEN }}
+    
