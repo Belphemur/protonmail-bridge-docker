@@ -105,7 +105,7 @@ jobs:
         with:
           driver-opts: network=host
       - name: Build image without push to registry ${{ matrix.platform }}
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         if: matrix.scan
         with:
           context: ./build
@@ -136,7 +136,7 @@ jobs:
           sarif_file: ${{ steps.scan.outputs.sarif }}
       - name: Build and push Docker image ${{ matrix.platform }}
         id: build-and-push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./build
           file: ./build/Dockerfile
