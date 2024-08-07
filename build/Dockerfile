@@ -1,5 +1,5 @@
 # Use carlosedp/golang for riscv64 support
-FROM golang:1.21-bookworm AS build
+FROM golang:1.22-bookworm AS build
 
 # Install dependencies
 RUN apt-get update && apt-get install -y git build-essential libsecret-1-dev
@@ -10,7 +10,7 @@ WORKDIR /build/
 COPY build.sh /build/
 RUN bash build.sh $VERSION
 
-FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
+FROM ghcr.io/linuxserver/baseimage-ubuntu:noble
 LABEL maintainer="Antoine Aflalo <proton-bridge@aaflalo.me>"
 
 EXPOSE 1025/tcp
