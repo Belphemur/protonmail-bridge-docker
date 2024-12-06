@@ -219,7 +219,7 @@ jobs:
           echo digest=$(docker buildx imagetools inspect ghcr.io/belphemur/protonmail-bridge:latest --format "{{json .Manifest.Digest}}"  | xargs) >> $GITHUB_OUTPUT
       - 
         name: Attest
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         id: attest
         with:
           subject-name: ${{needs.version.outputs.repo}}
