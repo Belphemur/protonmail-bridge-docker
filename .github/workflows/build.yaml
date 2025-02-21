@@ -121,7 +121,7 @@ jobs:
             VERSION=${{needs.version.outputs.version}}
       - name: Scan image
         id: scan
-        uses: anchore/scan-action@v5
+        uses: anchore/scan-action@v6
         if: matrix.scan
         with:
           image: localhost:5000/protonmail-bridge:latest
