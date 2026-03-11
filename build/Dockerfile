@@ -2,7 +2,7 @@
 FROM golang:1 AS build
 
 # Install dependencies
-RUN apt-get update && apt-get install -y git build-essential libsecret-1-dev
+RUN apt-get update && apt-get install -y git build-essential libsecret-1-dev libfido2-1 libfido2-dev
 
 # Build
 ARG VERSION
