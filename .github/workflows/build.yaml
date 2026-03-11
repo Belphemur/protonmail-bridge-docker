@@ -31,7 +31,7 @@ jobs:
       repo: ${{ steps.repo.outputs.repo }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           sparse-checkout: 'build/VERSION'
           sparse-checkout-cone-mode: false
@@ -80,7 +80,7 @@ jobs:
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV    
           echo "SCOPE=${{needs.version.outputs.repo}}-${platform//\//-}" >> $GITHUB_ENV
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
