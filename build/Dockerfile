@@ -21,7 +21,7 @@ COPY gpgparams init-bridge.sh /app/protonmail/
 
 # Install dependencies and protonmail bridge
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends pass libsecret-1-0 ca-certificates net-tools procps \
+    && apt-get install -y --no-install-recommends pass libfido2 libsecret-1-0 ca-certificates net-tools procps \
     && apt-get full-upgrade -y \
     && rm -rf /var/lib/apt/lists/*
 # Copy protonmail
