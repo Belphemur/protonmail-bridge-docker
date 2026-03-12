@@ -30,7 +30,7 @@ jobs:
       repo: ${{ steps.repo.outputs.repo }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           sparse-checkout: 'build/VERSION'
           sparse-checkout-cone-mode: false
@@ -66,7 +66,7 @@ jobs:
       - version
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       # Workaround: https://github.com/docker/build-push-action/issues/461
