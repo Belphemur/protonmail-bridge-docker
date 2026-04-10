@@ -9,6 +9,10 @@ git clone https://github.com/ProtonMail/proton-bridge.git --depth 1 --branch v$V
 cd proton-bridge
 sed -i 's/127.0.0.1/0.0.0.0/g' internal/constants/constants.go
 
+# Update vulnerable grpc to fix GHSA authorization bypass (< v1.79.3)
+go get google.golang.org/grpc@v1.79.3
+go mod tidy
+
 ARCH=$(uname -m)
 if [[ $ARCH == "armv7l" ]] ; then
 	# This is expected to fail, and we use the following patch to fix

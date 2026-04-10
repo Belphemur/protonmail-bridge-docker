@@ -1,3 +1,4 @@
 # Ignoring IDE-specific files
 .idea/*
 .vscode
+data/
