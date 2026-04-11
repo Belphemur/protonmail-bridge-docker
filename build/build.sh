@@ -3,6 +3,7 @@
 set -ex
 
 VERSION=$1
+target_grpc_version="v1.79.3"
 
 # Clone new code
 git clone https://github.com/ProtonMail/proton-bridge.git --depth 1 --branch v$VERSION
@@ -10,7 +11,10 @@ cd proton-bridge
 sed -i 's/127.0.0.1/0.0.0.0/g' internal/constants/constants.go
 
 # Update vulnerable grpc to fix GHSA authorization bypass (< v1.79.3)
-go get google.golang.org/grpc@v1.79.3
+ current_grpc_version="$(go list -m -f '{{.Version}}' google.golang.org/grpc 2>/dev/null || true)"
+ if [[ -z "$current_grpc_version" ]] || [[ "$(printf '%s\n' "${current_grpc_version#v}" "${target_grpc_version#v}" | sort -V | head -n1)" != "${target_grpc_version#v}" ]]; then
+ 	go get google.golang.org/grpc@"$target_grpc_version"
+ fi
 go mod tidy
 
 ARCH=$(uname -m)
