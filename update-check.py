@@ -12,7 +12,7 @@ def check_version(directory, new_version):
 
     if not new_version:
         print("Failed to get new version. Exiting.")
-        exit(1)
+        sys.exit(1)
 
     with open(f"{directory}/VERSION", "r") as f:
         old_version = f.read().rstrip()
@@ -35,14 +35,14 @@ def check_version(directory, new_version):
             && git tag -f v{new_version}")
         if result != 0:
             print("Failed to commit the bump. Exiting")
-            exit(1)
+            sys.exit(1)
         if is_pull_request:
             print("Action triggered by pull request. Do not push.")
         else:
             result = os.system("git push --follow-tags")
             if result != 0:
                 print("Failed to push. Exiting")
-                exit(1)
+                sys.exit(1)
     else:
         print(f"Already newest version {old_version}")
 
@@ -60,7 +60,7 @@ response = requests.get(
 tags = response.json()
 if not isinstance(tags, list):
     print(f"Unexpected GitHub API response: {tags.get('message', tags)}")
-    exit(1)
+    sys.exit(1)
 version_re = re.compile(r"v\d+\.\d+\.\d+")
 releases = [tag["name"][1:] for tag in tags if version_re.match(tag["name"])]
 check_version("build", releases[0])
