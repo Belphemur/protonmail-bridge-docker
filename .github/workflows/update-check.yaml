@@ -25,4 +25,6 @@ jobs:
       with:
         ssh-key: ${{secrets.COMMIT_KEY}}
     - name: Check Update
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: python3 update-check.py ${{ github.event_name == 'pull_request' }}

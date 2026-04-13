@@ -1,7 +1,6 @@
 import sys
 import os
 import requests
-import json
 import re
 
 is_pull_request = sys.argv[1] == "true"
@@ -49,11 +48,19 @@ def check_version(directory, new_version):
 
 
 # check build version
+headers = {"Accept": "application/vnd.github.v3+json"}
+token = os.environ.get("GITHUB_TOKEN")
+if token:
+    headers["Authorization"] = f"Bearer {token}"
+
 response = requests.get(
     "https://api.github.com/repos/ProtonMail/proton-bridge/tags",
-    headers={"Accept": "application/vnd.github.v3+json"},
+    headers=headers,
     )
-tags = json.loads(response.content)
-version_re = re.compile("v\d+\.\d+\.\d+")
+tags = response.json()
+if not isinstance(tags, list):
+    print(f"Unexpected GitHub API response: {tags.get('message', tags)}")
+    exit(1)
+version_re = re.compile(r"v\d+\.\d+\.\d+")
 releases = [tag["name"][1:] for tag in tags if version_re.match(tag["name"])]
 check_version("build", releases[0])
